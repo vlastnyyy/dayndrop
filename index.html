@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DaynDrop — Case Battles</title>
+<style>
+:root{
+  --bg:#07080b;--panel:#0d1015;--panel2:#11151c;--line:#202631;
+  --text:#f4f5f7;--muted:#7f8998;--gold:#d7b56d;--gold2:#f2d89a;
+  --green:#48d597;--red:#ff6478;--blue:#62a9ff;--purple:#b77cff;
+}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 70% -10%,#252018 0,#0b0c0f 32%,var(--bg) 60%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+button{font:inherit;cursor:pointer} a{color:inherit;text-decoration:none}
+header{height:72px;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 5%;gap:34px;background:rgba(7,8,11,.82);backdrop-filter:blur(18px);position:sticky;top:0;z-index:10}
+.logo{font-size:21px;font-weight:900;letter-spacing:.08em}.logo span{color:var(--gold)}
+nav{display:flex;gap:24px;color:#929baa;font-size:14px}nav a:hover,nav a.active{color:#fff}
+.spacer{flex:1}.balance{border:1px solid #35312a;background:#11100e;padding:9px 13px;border-radius:10px;color:var(--gold2);font-weight:700}
+.btn{border:1px solid var(--line);background:#151920;color:#fff;padding:10px 15px;border-radius:10px;font-weight:700}.btn.gold{background:linear-gradient(135deg,#d7b56d,#a9823d);border:0;color:#111}.btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
+main{width:min(1180px,90%);margin:0 auto;padding:48px 0 70px}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;padding:30px 0 60px}
+.eyebrow{color:var(--gold);font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+h1{font-size:58px;line-height:1.02;margin:14px 0;background:linear-gradient(#fff,#aeb4bd);-webkit-background-clip:text;color:transparent}
+.hero p{color:var(--muted);font-size:16px;max-width:580px;line-height:1.7}.hero-actions{display:flex;gap:12px;margin-top:25px}
+.hero-card{min-height:310px;border:1px solid #302d27;border-radius:22px;background:linear-gradient(145deg,#17150f,#0e1015 55%);position:relative;overflow:hidden;padding:28px;box-shadow:0 25px 80px #0008}
+.hero-card:after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;background:#d7b56d18;filter:blur(25px);right:-50px;top:-40px}
+.case-visual{height:210px;border:1px solid #5a4930;border-radius:18px;background:linear-gradient(145deg,#272019,#0b0d11);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.case-visual .crate{font-size:92px;filter:drop-shadow(0 20px 30px #000);transform:rotate(-7deg)}
+.case-visual:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 25%,#fff2 45%,transparent 65%);transform:translateX(-100%);animation:shine 4s infinite}
+@keyframes shine{55%,100%{transform:translateX(100%)}}
+.section-title{display:flex;align-items:end;justify-content:space-between;margin:15px 0 18px}.section-title h2{margin:0;font-size:25px}.section-title span{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.card{background:linear-gradient(160deg,#12161d,#0b0d11);border:1px solid var(--line);border-radius:15px;padding:13px;transition:.2s}.card:hover{border-color:#4b4a43;transform:translateY(-3px)}
+.item-art{height:145px;border-radius:11px;background:radial-gradient(circle at 50% 35%,#252a35,#0c0f14 68%);display:flex;align-items:center;justify-content:center;font-size:60px;position:relative}
+.rarity{position:absolute;left:9px;bottom:8px;font-size:9px;font-weight:900;letter-spacing:.08em}.gold{color:var(--gold2)}.purple{color:var(--purple)}.blue{color:var(--blue)}.green{color:var(--green)}
+.card h3{margin:12px 2px 4px;font-size:15px}.card small{color:var(--muted)}.price{float:right;color:#d9dde4;font-weight:700}
+.open{width:100%;margin-top:12px}.tag{font-size:10px;color:#8e96a4;background:#181d25;padding:5px 7px;border-radius:6px}
+.battles{display:grid;grid-template-columns:1.2fr .8fr;gap:16px;margin-top:40px}.battle,.panel{background:linear-gradient(160deg,#10141a,#0a0c10);border:1px solid var(--line);border-radius:16px;padding:18px}
+.battle-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid #1b2028}.avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#393f49,#16191f);display:grid;place-items:center;font-weight:900}.vs{color:#555e6d;font-size:11px;font-weight:900}.amount{margin-left:auto;color:var(--gold2);font-weight:800}
+.promo{display:flex;gap:9px}.promo input{flex:1;background:#090b0e;border:1px solid var(--line);border-radius:9px;color:#fff;padding:11px}
+.footer{border-top:1px solid var(--line);padding:25px 5%;color:#687180;font-size:12px;display:flex;justify-content:space-between}
+.modal{position:fixed;inset:0;background:#000b;display:none;place-items:center;z-index:30;padding:20px}.modal.show{display:grid}
+.modalbox{width:min(650px,100%);background:#0e1116;border:1px solid #303640;border-radius:20px;padding:24px;box-shadow:0 30px 100px #000}
+.modal-head{display:flex;justify-content:space-between;align-items:center}.close{background:none;border:0;color:#8b95a4;font-size:24px}
+.roll{height:210px;border:1px solid #332e25;border-radius:16px;background:linear-gradient(90deg,#15130f,#0b0e13,#15130f);display:flex;align-items:center;justify-content:center;gap:12px;overflow:hidden;margin:20px 0}
+.roll .drop{min-width:150px;height:150px;border:1px solid #252b34;border-radius:12px;display:grid;place-items:center;font-size:50px;background:#11151b}
+.result{text-align:center}.result strong{font-size:26px;color:var(--gold2)}
+.login{display:grid;gap:10px}.login input{padding:13px;border:1px solid var(--line);background:#080a0d;border-radius:9px;color:#fff}
+.toast{position:fixed;right:20px;bottom:20px;background:#171b22;border:1px solid #343a44;padding:13px 16px;border-radius:10px;display:none;z-index:50}
+@media(max-width:850px){nav{display:none}.hero{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}.battles{grid-template-columns:1fr}h1{font-size:43px}}
+@media(max-width:500px){header{padding:0 4%;gap:12px}.balance{display:none}.grid{grid-template-columns:1fr 1fr}.item-art{height:115px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">DAYN<span>DROP</span></div>
+  <nav>
+    <a class="active" href="#cases">Кейсы</a><a href="#battles">Баттлы</a><a href="#inventory">Инвентарь</a><a href="#rating">Рейтинг</a>
+  </nav>
+  <div class="spacer"></div><div class="balance">₽ 12 450.00</div><button class="btn gold" onclick="login()">Войти</button>
+</header>
+
+<main>
+<section class="hero">
+  <div><div class="eyebrow">Premium case battles</div><h1>Открывай.<br>Сражайся.<br>Забирай всё.</h1>
+  <p>DaynDrop — премиальная арена кейсов. Открывай кейсы, собирай инвентарь и бросай вызов другим игрокам в быстрых баттлах.</p>
+  <div class="hero-actions"><a class="btn gold" href="#cases">Открыть кейсы</a><a class="btn" href="#battles">Смотреть баттлы</a></div></div>
+  <div class="hero-card"><div class="eyebrow">Case of the day</div><div class="case-visual"><div class="crate">◈</div></div><div style="display:flex;justify-content:space-between;margin-top:15px"><b>Black Gold</b><span class="tag">-15% сегодня</span></div></div>
+</section>
+
+<section id="cases">
+<div class="section-title"><h2>Популярные кейсы</h2><span>Честные шансы · демо-режим</span></div>
+<div class="grid">
+  <div class="card"><div class="item-art">◈<span class="rarity blue">RARE</span></div><h3>First Blood <span class="price">₽ 149</span></h3><small>AK-47 · Glock · AWP</small><button class="btn gold open" onclick="openCase('First Blood',149)">Открыть</button></div>
+  <div class="card"><div class="item-art">◆<span class="rarity purple">EPIC</span></div><h3>Black Gold <span class="price">₽ 399</span></h3><small>Knife · Gloves · Rifle</small><button class="btn gold open" onclick="openCase('Black Gold',399)">Открыть</button></div>
+  <div class="card"><div class="item-art">✦<span class="rarity gold">LEGENDARY</span></div><h3>Royal Vault <span class="price">₽ 899</span></h3><small>Rare knives · Gloves</small><button class="btn gold open" onclick="openCase('Royal Vault',899)">Открыть</button></div>
+  <div class="card"><div class="item-art">♢<span class="rarity purple">EPIC</span></div><h3>Night Market <span class="price">₽ 249</span></h3><small>Covert · Classified</small><button class="btn gold open" onclick="openCase('Night Market',249)">Открыть</button></div>
+</div>
+</section>
+
+<section class="battles" id="battles">
+<div class="battle"><div class="section-title"><h2>🔥 Живые баттлы</h2><span>Сейчас онлайн</span></div>
+  <div class="battle-row"><div class="avatar">A</div><b>Alexx</b><span class="vs">VS</span><div class="avatar">K</div><b>K1NG</b><span class="amount">₽ 1 797</span><button class="btn" onclick="toast('Подключаемся к баттлу…')">Наблюдать</button></div>
+  <div class="battle-row"><div class="avatar">D</div><b>Darky</b><span class="vs">VS</span><div class="avatar">M</div><b>m1nex</b><span class="amount">₽ 798</span><button class="btn" onclick="toast('Баттл скоро начнётся')">Войти</button></div>
+  <div class="battle-row"><div class="avatar">V</div><b>Viper</b><span class="vs">VS</span><div class="avatar">S</div><b>seven</b><span class="amount">₽ 2 697</span><button class="btn" onclick="toast('Баттл завершён')">Результат</button></div>
+</div>
+<div class="panel"><div class="section-title"><h2>Создать баттл</h2><span>1–4 игрока</span></div>
+<p style="color:var(--muted);font-size:13px;line-height:1.6">Выбери набор кейсов. Все участники открывают одинаковый набор. Побеждает игрок с самым дорогим итоговым дропом.</p>
+<select id="battleCase" style="width:100%;padding:12px;background:#080a0d;color:#fff;border:1px solid var(--line);border-radius:9px"><option>First Blood × 3</option><option>Black Gold × 3</option><option>Royal Vault × 2</option></select>
+<button class="btn gold open" onclick="createBattle()">Создать баттл · ДЕМО</button>
+</div>
+</section>
+
+<section id="rating" style="margin-top:40px"><div class="section-title"><h2>Топ игроков</h2><span>За неделю</span></div>
+<div class="panel"><div class="battle-row"><b>#1</b><div class="avatar">K</div><b>K1NG</b><span class="amount">₽ 184 920</span></div><div class="battle-row"><b>#2</b><div class="avatar">A</div><b>Alexx</b><span class="amount">₽ 161 440</span></div><div class="battle-row" style="border:0"><b>#3</b><div class="avatar">V</div><b>Viper</b><span class="amount">₽ 149 870</span></div></div></section>
+
+<section style="margin-top:40px" id="inventory"><div class="section-title"><h2>Промокод</h2><span>Бонусы появятся после входа</span></div><div class="panel"><div class="promo"><input id="promo" placeholder="Введите промокод"><button class="btn gold" onclick="applyPromo()">Активировать</button></div></div></section>
+</main>
+<footer><span>© 2026 DaynDrop</span><span>DEMO MODE · Реальные платежи отключены</span></footer>
+
+<div class="modal" id="modal"><div class="modalbox">
+<div class="modal-head"><div><div class="eyebrow">Открытие кейса</div><h2 id="modalTitle" style="margin:6px 0">First Blood</h2></div><button class="close" onclick="closeModal()">×</button></div>
+<div class="roll" id="roll"><div class="drop">◈</div><div class="drop">◆</div><div class="drop">✦</div></div>
+<div class="result" id="result"><button class="btn gold" onclick="roll()">Открыть за демо-баланс</button></div>
+</div></div>
+
+<div class="modal" id="loginModal"><div class="modalbox" style="max-width:430px"><div class="modal-head"><h2>Вход в DaynDrop</h2><button class="close" onclick="document.getElementById('loginModal').classList.remove('show')">×</button></div>
+<p style="color:var(--muted)">Демо-авторизация. Реальный Steam OAuth подключается на сервере.</p>
+<button class="btn gold open" onclick="demoLogin('Steam')">◉ Войти через Steam</button><button class="btn open" onclick="demoLogin('Email')">✉ Войти по почте</button></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+let currentCase='', price=0;
+function openCase(name,p){currentCase=name;price=p;document.getElementById('modalTitle').textContent=name;document.getElementById('result').innerHTML='<button class="btn gold" onclick="roll()">Открыть за демо-баланс</button>';document.getElementById('modal').classList.add('show')}
+function closeModal(){document.getElementById('modal').classList.remove('show')}
+function roll(){
+ const names=['AK-47 | Slate','Glock-18 | Vogue','AWP | Neo-Noir','M4A1-S | Printstream','★ Karambit | Doppler','★ Sport Gloves | Pandora'];
+ const rarity=['Mil-Spec','Restricted','Classified','Covert','Rare Special'];
+ const i=Math.random()<.015?4:Math.random()<.08?3:Math.floor(Math.random()*4);
+ const val=[Math.round(price*.55),Math.round(price*1.15),Math.round(price*2.2),Math.round(price*5),Math.round(price*18),Math.round(price*25)][i];
+ document.getElementById('roll').innerHTML='<div class="drop" style="min-width:220px;font-size:60px">✦</div>';
+ document.getElementById('result').innerHTML='<p style="color:#8d96a4;margin-bottom:5px">'+rarity[Math.min(i,4)]+'</p><strong>'+names[i]+'</strong><p style="color:#d7b56d">Демо-стоимость: ₽ '+val.toLocaleString('ru-RU')+'</p><button class="btn gold" onclick="closeModal()">Забрать в инвентарь</button>';
+}
+function login(){document.getElementById('loginModal').classList.add('show')}
+function demoLogin(x){document.getElementById('loginModal').classList.remove('show');toast('Демо-вход через '+x+' выполнен')}
+function createBattle(){toast('Демо-баттл создан — ищем соперника')}
+function applyPromo(){let v=document.getElementById('promo').value.trim();toast(v?'Промокод принят в демо-режиме':'Введите промокод')}
+function toast(t){let e=document.getElementById('toast');e.textContent=t;e.style.display='block';clearTimeout(window.tt);window.tt=setTimeout(()=>e.style.display='none',2400)}
+</script>
+</body>
+</html>
